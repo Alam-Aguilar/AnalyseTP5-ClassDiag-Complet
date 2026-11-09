@@ -1,0 +1,83 @@
+TP 5 : Diagrammes de cas d’utilisation et diagrammes de class
+
+Ex. 1 Simulation d’un reseau ferroviaire
+
+
+@startuml
+class LigneFerroviaire {
+}
+class Gare {
+    - nom: String
+}
+class Train {
+    +setOrigine(o: Gare)
+    +setArrivee(a: Gare)
+}
+class Capteur {
+}
+class Barriere {
+    - estOuverte: bool
+    - estFermee: bool
+}
+
+Gare "2..*"--"1..*" LigneFerroviaire : traverse/est traverser
+Train "0..*"..>"0..*" LigneFerroviaire : Utiliser
+
+Train "*"-->"1" Gare: GareOrigine
+Train "*"-->"1" Gare: GareArrivee
+
+Capteur "*"<--"1" LigneFerroviaire : Posseder
+
+Capteur "1"--"1" Barriere : controller
+
+@enduml
+
+Ex. 2 Location de bungalows
+
+@startuml
+class Bungalow {
+}
+class TypeBungalow {
+}
+class Reservation {
+  -numRes: int
+}
+class Periode {
+    -dateDebut
+    -dateFin
+}
+'classe associative
+class Tarif {
+}
+
+class Semaine {
+}
+
+'classe associative
+class Disponibilite {
+   -isDispo: bool
+}
+
+class Client {
+    -nom: string
+    -prenom: string
+    -adresse: string
+    -telephone: string
+    -email: string
+    -nbAdultes: int
+    -nbEnfant: int
+    +reserver()
+    +payer()
+}
+
+Client "1" -- "0..*" Reservation : Effectuer
+Reservation "0..1" -- "1..1" Bungalow : comporter
+Bungalow "0..*" --o "1" TypeBungalow : avoir
+
+Periode  "0..*" -- "0..*" TypeBungalow
+(Periode,TypeBungalow) .. Tarif
+
+Semaine  "0..*" -- "0..*" Bungalow
+(Semaine,Bungalow) .. Disponibilite
+
+@enduml
